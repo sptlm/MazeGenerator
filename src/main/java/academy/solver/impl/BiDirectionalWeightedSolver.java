@@ -13,15 +13,12 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 /**
- * Решатель лабиринтов с двусторонним поиском (Bi-directional Search).
- * Одновременно ищет путь от начала и от конца, встречаясь в середине.
- * Поддерживает взвешенные графы (различные типы поверхностей).
+ * Решатель лабиринтов с двусторонним поиском (Bi-directional Search). Одновременно ищет путь от начала и от конца,
+ * встречаясь в середине. Поддерживает взвешенные графы (различные типы поверхностей).
  *
- * Принцип работы:
- * 1. Запускаем поиск из стартовой точки (forward search)
- * 2. Одновременно запускаем поиск из конечной точки (backward search)
- * 3. Когда поиски встречаются (посещаем общую точку), объединяем пути
- * 4. Восстанавливаем полный путь от начала к концу
+ * <p>Принцип работы: 1. Запускаем поиск из стартовой точки (forward search) 2. Одновременно запускаем поиск из конечной
+ * точки (backward search) 3. Когда поиски встречаются (посещаем общую точку), объединяем пути 4. Восстанавливаем полный
+ * путь от начала к концу
  */
 public class BiDirectionalWeightedSolver extends BaseSolver {
     @Override
@@ -64,9 +61,12 @@ public class BiDirectionalWeightedSolver extends BaseSolver {
         return emptyPath();
     }
 
-    private Point expandForward(Maze maze, PriorityQueue<Node> queue,
-                                Map<Point, Integer> forwardCosts, Map<Point, Point> forwardPrev,
-                                Map<Point, Integer> backwardCosts) {
+    private Point expandForward(
+            Maze maze,
+            PriorityQueue<Node> queue,
+            Map<Point, Integer> forwardCosts,
+            Map<Point, Point> forwardPrev,
+            Map<Point, Integer> backwardCosts) {
         if (queue.isEmpty()) return null;
 
         Node current = queue.poll();
@@ -92,9 +92,12 @@ public class BiDirectionalWeightedSolver extends BaseSolver {
         return null;
     }
 
-    private Point expandBackward(Maze maze, PriorityQueue<Node> queue,
-                                 Map<Point, Integer> backwardCosts, Map<Point, Point> backwardPrev,
-                                 Map<Point, Integer> forwardCosts) {
+    private Point expandBackward(
+            Maze maze,
+            PriorityQueue<Node> queue,
+            Map<Point, Integer> backwardCosts,
+            Map<Point, Point> backwardPrev,
+            Map<Point, Integer> forwardCosts) {
         if (queue.isEmpty()) return null;
 
         Node current = queue.poll();
@@ -119,8 +122,8 @@ public class BiDirectionalWeightedSolver extends BaseSolver {
 
         return null;
     }
-    private Path constructPath(Map<Point, Point> forwardPrev, Map<Point, Point> backwardPrev,
-                               Point meeting) {
+
+    private Path constructPath(Map<Point, Point> forwardPrev, Map<Point, Point> backwardPrev, Point meeting) {
         List<Point> pathPoints = new ArrayList<>();
 
         // Путь от start к meeting

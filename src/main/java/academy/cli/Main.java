@@ -4,15 +4,11 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 @Command(
-    name = "maze-app ",
-    description = "Maze generator and solver CLI application.",
-    mixinStandardHelpOptions = true,
-    version = "1.0",
-    subcommands = {
-        GenerateCommand.class,
-        SolveCommand.class
-    }
-)
+        name = "maze-app ",
+        description = "Maze generator and solver CLI application.",
+        mixinStandardHelpOptions = true,
+        version = "1.0",
+        subcommands = {GenerateCommand.class, SolveCommand.class})
 public class Main implements Runnable {
     public static void main(String[] args) {
         System.setProperty("line.separator", "\n");

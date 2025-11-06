@@ -20,9 +20,7 @@ public class Validator {
 
         String[] parts = coordinates.trim().split(",");
         if (parts.length != 2) {
-            throw new IllegalArgumentException(
-                "Invalid coordinate format. Expected 'x,y', got: " + coordinates
-            );
+            throw new IllegalArgumentException("Invalid coordinate format. Expected 'x,y', got: " + coordinates);
         }
 
         try {
@@ -30,16 +28,12 @@ public class Validator {
             int y = Integer.parseInt(parts[1].trim());
 
             if (x < 0 || y < 0) {
-                throw new IllegalArgumentException(
-                    "Coordinates must be non-negative, got: " + coordinates
-                );
+                throw new IllegalArgumentException("Coordinates must be non-negative, got: " + coordinates);
             }
 
             return new Point(x, y);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                "Invalid coordinate values. Expected numbers, got: " + coordinates, e
-            );
+            throw new IllegalArgumentException("Invalid coordinate values. Expected numbers, got: " + coordinates, e);
         }
     }
 

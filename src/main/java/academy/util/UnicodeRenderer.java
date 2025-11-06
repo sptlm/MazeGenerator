@@ -27,7 +27,6 @@ public class UnicodeRenderer {
     static final String END = "◎";
     static final String PATH = "·";
 
-
     private static String getSymbol(Maze maze, int x, int y) {
         if (maze.getCell(x, y).getSymbol() != '#') {
             return String.valueOf(maze.getCell(x, y).getSymbol());
@@ -112,8 +111,7 @@ public class UnicodeRenderer {
         return sb.toString();
     }
 
-    public static String renderWithPath(Maze maze, Path path,
-                                        Point start, Point end) {
+    public static String renderWithPath(Maze maze, Path path, Point start, Point end) {
         StringBuilder sb = new StringBuilder();
 
         for (int y = 0; y < maze.getFullHeight(); y++) {
@@ -141,5 +139,4 @@ public class UnicodeRenderer {
 
         return sb.toString();
     }
-
 }

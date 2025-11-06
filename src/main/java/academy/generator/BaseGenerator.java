@@ -22,12 +22,10 @@ public abstract class BaseGenerator implements Generator {
         this.random = new Random(seed);
     }
 
-
     public abstract Maze generate(int width, int height);
 
     protected boolean isValidCell(Maze maze, int x, int y) {
-        return x > 0 && x < maze.getFullWidth() - 1 &&
-               y > 0 && y < maze.getFullHeight() - 1;
+        return x > 0 && x < maze.getFullWidth() - 1 && y > 0 && y < maze.getFullHeight() - 1;
     }
 
     protected List<int[]> getShuffledDirections() {

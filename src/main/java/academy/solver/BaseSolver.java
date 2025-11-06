@@ -61,7 +61,6 @@ public abstract class BaseSolver {
         return from.manhattanDistance(to);
     }
 
-
     protected Path emptyPath() {
         return new Path();
     }

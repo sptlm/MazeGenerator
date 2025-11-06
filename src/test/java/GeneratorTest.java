@@ -1,13 +1,14 @@
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import academy.generator.impl.CyclicMazeGenerator;
 import academy.generator.impl.DfsGenerator;
 import academy.generator.impl.PrimGenerator;
 import academy.model.CellType;
 import academy.model.Maze;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GeneratorTest {
 
@@ -231,5 +232,4 @@ public class GeneratorTest {
         }
         return false;
     }
-
 }

@@ -6,8 +6,8 @@ import academy.model.Maze;
 import academy.util.Validator;
 
 /**
- * Генератор не-идеальных лабиринтов с циклами и несколькими путями.
- * Использует dfs генератор для получения идеального лабиринта, а затем добавляет новые проходы.
+ * Генератор не-идеальных лабиринтов с циклами и несколькими путями. Использует dfs генератор для получения идеального
+ * лабиринта, а затем добавляет новые проходы.
  */
 public class CyclicMazeGenerator extends BaseGenerator {
     private boolean[][] visited;
@@ -64,11 +64,7 @@ public class CyclicMazeGenerator extends BaseGenerator {
     }
 
     private void addSurfaceVariation(Maze maze, int width, int height) {
-        CellType[] surfaces = {
-            CellType.ASPHALT,
-            CellType.SAND,
-            CellType.SWAMP
-        };
+        CellType[] surfaces = {CellType.ASPHALT, CellType.SAND, CellType.SWAMP};
 
         for (int y = 1; y <= height; y++) {
             for (int x = 1; x <= width; x++) {

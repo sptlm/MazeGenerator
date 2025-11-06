@@ -1,3 +1,9 @@
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import academy.generator.impl.CyclicMazeGenerator;
 import academy.generator.impl.DfsGenerator;
 import academy.generator.impl.PrimGenerator;
@@ -10,11 +16,6 @@ import academy.solver.impl.BiDirectionalWeightedSolver;
 import academy.solver.impl.DijkstraSolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SolverTest {
 
@@ -131,8 +132,7 @@ class SolverTest {
                 int dx = Math.abs(current.x() - next.x());
                 int dy = Math.abs(current.y() - next.y());
 
-                assertTrue((dx == 1 && dy == 0) || (dx == 0 && dy == 1),
-                    "Path points must be adjacent (distance 1)");
+                assertTrue((dx == 1 && dy == 0) || (dx == 0 && dy == 1), "Path points must be adjacent (distance 1)");
             }
         }
     }
@@ -151,8 +151,7 @@ class SolverTest {
         Path dijkstraPath = dijkstra.solve(dfsMaze, start, end);
 
         if (!aStarPath.isEmpty() && !dijkstraPath.isEmpty()) {
-            assertEquals(aStarPath.size(), dijkstraPath.size(),
-                "Both solvers should find optimal path of same length");
+            assertEquals(aStarPath.size(), dijkstraPath.size(), "Both solvers should find optimal path of same length");
         }
     }
 

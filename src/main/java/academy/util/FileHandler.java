@@ -12,7 +12,6 @@ import java.util.List;
 
 public class FileHandler {
 
-
     public static void saveMaze(Maze maze, String filename) throws IOException {
         Validator.validateFilename(filename);
         Path path = Paths.get(filename);
