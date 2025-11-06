@@ -33,16 +33,11 @@ public class UnicodeRenderer {
             return String.valueOf(maze.getCell(x, y).getSymbol());
         }
 
-        boolean hasTop = y > 0 && maze.getCell(x, y - 1).getSymbol() == '#';
-        boolean hasBottom = y < maze.getFullHeight() - 1 && maze.getCell(x, y + 1).getSymbol() == '#';
-        boolean hasLeft = x > 0 && maze.getCell(x - 1, y).getSymbol() == '#';
-        boolean hasRight = x < maze.getFullWidth() - 1 && maze.getCell(x + 1, y).getSymbol() == '#';
+        boolean top = y > 0 && maze.getCell(x, y - 1).getSymbol() == '#';
+        boolean bottom = y < maze.getFullHeight() - 1 && maze.getCell(x, y + 1).getSymbol() == '#';
+        boolean left = x > 0 && maze.getCell(x - 1, y).getSymbol() == '#';
+        boolean right = x < maze.getFullWidth() - 1 && maze.getCell(x + 1, y).getSymbol() == '#';
 
-        return selectSymbol(hasTop, hasBottom, hasLeft, hasRight);
-    }
-
-    private static String selectSymbol(boolean top, boolean bottom,
-                                       boolean left, boolean right) {
         if (top && bottom && left && right) {
             return CROSS;
         }
@@ -54,10 +49,10 @@ public class UnicodeRenderer {
             return T_RIGHT;
         }
         if (top && left && right) {
-            return T_DOWN;
+            return T_UP;
         }
         if (bottom && left && right) {
-            return T_UP;
+            return T_DOWN;
         }
 
         if (top && bottom) {
