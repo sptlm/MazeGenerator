@@ -10,7 +10,7 @@ import java.util.Map;
 
 public abstract class BaseSolver {
 
-    protected static final int[][] DIRECTIONS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    static final int[][] DIRECTIONS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
     public abstract Path solve(Maze maze, Point start, Point end);
 

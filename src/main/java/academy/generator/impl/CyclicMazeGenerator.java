@@ -10,7 +10,6 @@ import academy.util.Validator;
  * лабиринта, а затем добавляет новые проходы.
  */
 public class CyclicMazeGenerator extends BaseGenerator {
-    private boolean[][] visited;
     private float cycleChance; // Вероятность добавления цикла
     private float surfaceVariationChance; // Вероятность использования других поверхностей
     private DfsGenerator dfsGenerator;
@@ -40,8 +39,6 @@ public class CyclicMazeGenerator extends BaseGenerator {
         Validator.validateMazeSize(width, height);
 
         Maze maze = dfsGenerator.generate(width, height);
-        visited = new boolean[height + 2][width + 2];
-
         // Добавляем циклы для создания множественных путей
         addCycles(maze, width, height);
 

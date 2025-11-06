@@ -6,9 +6,6 @@ public class Maze {
     private final CellType[][] grid;
 
     public Maze(int width, int height) {
-        if (width <= 0 || height <= 0) {
-            throw new IllegalArgumentException("Width and height must be positive");
-        }
         this.width = width;
         this.height = height;
         this.grid = new CellType[height + 2][width + 2];
