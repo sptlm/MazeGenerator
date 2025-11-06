@@ -4,6 +4,6 @@ FROM ${RUNTIME_IMAGE}
 
 WORKDIR /app
 USER nobody
-COPY target/project-1.0-jar-with-dependencies.jar .
+COPY target/project-1.0.jar .
 
-ENTRYPOINT ["java", "-cp", "project-1.0-jar-with-dependencies.jar", "academy.cli.Main"]
+ENTRYPOINT ["java", "-cp", "project-1.0.jar", "academy.cli.Main"]
