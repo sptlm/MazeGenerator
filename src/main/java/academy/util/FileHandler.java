@@ -7,14 +7,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class FileHandler {
 
     public static void saveMaze(Maze maze, String filename) throws IOException {
         Validator.validateFilename(filename);
-        Path path = Paths.get(filename);
+        Path path = Path.of(filename);
 
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             writer.write(maze.toString());
@@ -23,7 +22,7 @@ public class FileHandler {
 
     public static void saveSolution(String content, String filename) throws IOException {
         Validator.validateFilename(filename);
-        Path path = Paths.get(filename);
+        Path path = Path.of(filename);
 
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             writer.write(content);
@@ -31,7 +30,7 @@ public class FileHandler {
     }
 
     public static Maze loadMaze(String filename) throws IOException {
-        Path path = Paths.get(filename);
+        Path path = Path.of(filename);
 
         if (!Files.exists(path)) {
             throw new IOException("File not found: " + filename);
