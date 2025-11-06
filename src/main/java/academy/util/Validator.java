@@ -20,7 +20,7 @@ public class Validator {
 
         String[] parts = coordinates.trim().split(",");
         if (parts.length != 2) {
-            throw new IllegalArgumentException("Invalid coordinate format. Expected 'x,y', got: " + coordinates);
+            throw new IllegalArgumentException("Invalid point format: " + coordinates + ", expected format: x,y");
         }
 
         try {
@@ -40,11 +40,6 @@ public class Validator {
     public static void validateFilename(String filename) {
         if (filename == null || filename.trim().isEmpty()) {
             throw new IllegalArgumentException("Filename cannot be empty");
-        }
-
-        String trimmed = filename.trim();
-        if (trimmed.contains("..") || trimmed.contains("/") || trimmed.contains("\\")) {
-            throw new IllegalArgumentException("Invalid filename: " + filename);
         }
     }
 }
