@@ -11,7 +11,10 @@ import java.util.concurrent.Callable;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "generate", description = "Generate a maze using specified algorithm", mixinStandardHelpOptions = true)
+@Command(
+        name = "generate",
+        description = "Generate a maze with specified algorithm and dimensions.",
+        mixinStandardHelpOptions = true)
 public class GenerateCommand implements Callable<Integer> {
 
     @Option(
@@ -85,7 +88,7 @@ public class GenerateCommand implements Callable<Integer> {
 
             return 0;
         } catch (IllegalArgumentException e) {
-            System.err.println("Error: " + e.getMessage());
+            System.err.println(e.getMessage());
             return 1;
         } catch (Exception e) {
             System.err.println("Unexpected error: " + e.getMessage());

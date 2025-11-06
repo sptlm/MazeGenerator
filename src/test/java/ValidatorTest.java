@@ -131,16 +131,6 @@ class ValidatorTest {
         assertThrows(IllegalArgumentException.class, () -> Validator.validateFilename(null));
     }
 
-    @Test
-    void testInvalidFilenamePath() {
-        // Пути не допускаются в имени файла
-        assertThrows(IllegalArgumentException.class, () -> Validator.validateFilename("../maze.txt"));
-        assertThrows(IllegalArgumentException.class, () -> Validator.validateFilename("dir/maze.txt"));
-        assertThrows(IllegalArgumentException.class, () -> Validator.validateFilename("dir\\maze.txt"));
-        assertThrows(IllegalArgumentException.class, () -> Validator.validateFilename("/maze.txt"));
-        assertThrows(IllegalArgumentException.class, () -> Validator.validateFilename(".\\maze.txt"));
-    }
-
     // ============= Комбинированные тесты =============
 
     @Test

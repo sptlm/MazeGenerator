@@ -14,7 +14,10 @@ import java.util.concurrent.Callable;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "solve", description = "Solve a maze using specified algorithm", mixinStandardHelpOptions = true)
+@Command(
+        name = "solve",
+        description = "Solve a maze with specified algorithm and points.",
+        mixinStandardHelpOptions = true)
 public class SolveCommand implements Callable<Integer> {
 
     @Option(
