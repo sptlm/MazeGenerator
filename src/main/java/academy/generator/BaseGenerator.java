@@ -4,7 +4,6 @@ import academy.model.CellType;
 import academy.model.Maze;
 import academy.util.Validator;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -15,8 +14,7 @@ public abstract class BaseGenerator implements Generator {
 
     // protected static final int[][] DIRECTIONS = {{2, 0}, {0, 2}, {-2, 0}, {0, -2}};
 
-    protected static final List<int[]> DIRECTIONS =
-            Arrays.asList(new int[] {2, 0}, new int[] {0, 2}, new int[] {-2, 0}, new int[] {0, -2});
+    private static final int[][] DIRECTIONS = {{2, 0}, {0, 2}, {-2, 0}, {0, -2}};
 
     protected BaseGenerator() {
         this.random = new Random();
@@ -27,6 +25,10 @@ public abstract class BaseGenerator implements Generator {
     }
 
     public abstract Maze generate(int width, int height);
+
+    protected static int[][] directions() {
+        return DIRECTIONS.clone();
+    }
 
     protected boolean isValidCell(Maze maze, int x, int y) {
         return x > 0 && x < maze.getFullWidth() - 1 && y > 0 && y < maze.getFullHeight() - 1;

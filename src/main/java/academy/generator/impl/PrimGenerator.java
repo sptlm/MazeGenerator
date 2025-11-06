@@ -62,7 +62,7 @@ public class PrimGenerator extends BaseGenerator {
     }
 
     private void addNeighborWalls(Maze maze, int x, int y, List<Wall> walls) {
-        for (int[] dir : DIRECTIONS) {
+        for (int[] dir : directions()) {
             int newX = x + dir[0];
             int newY = y + dir[1];
 
