@@ -95,7 +95,7 @@ public class SolveCommand implements Callable<Integer> {
 
             return 0;
         } catch (IllegalArgumentException e) {
-            System.err.println("Error: " + e.getMessage());
+            System.err.println(e.getMessage());
             return 1;
         } catch (Exception e) {
             System.err.println("Unexpected error: " + e.getMessage());

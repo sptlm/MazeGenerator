@@ -4,7 +4,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 @Command(
-        name = "maze-app ",
+        name = "maze-app",
         description = "Maze generator and solver CLI application.",
         mixinStandardHelpOptions = true,
         version = "1.0",
