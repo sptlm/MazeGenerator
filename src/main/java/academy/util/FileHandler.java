@@ -11,16 +11,7 @@ import java.util.List;
 
 public class FileHandler {
 
-    public static void saveMaze(Maze maze, String filename) throws IOException {
-        Validator.validateFilename(filename);
-        Path path = Path.of(filename);
-
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            writer.write(maze.toString());
-        }
-    }
-
-    public static void saveSolution(String content, String filename) throws IOException {
+    public static void save(String content, String filename) throws IOException {
         Validator.validateFilename(filename);
         Path path = Path.of(filename);
 

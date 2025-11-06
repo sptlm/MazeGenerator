@@ -38,18 +38,16 @@ public class Path {
                 Point current = new Point(x, y);
 
                 if (current.equals(start)) {
-                    sb.append('O'); // Начальная точка
+                    sb.append('O');
                 } else if (current.equals(end)) {
-                    sb.append('X'); // Конечная точка
+                    sb.append('X');
                 } else if (points.contains(current) && !current.equals(start) && !current.equals(end)) {
-                    sb.append('.'); // Точка пути
+                    sb.append('.');
                 } else {
                     sb.append(maze.getCell(x, y).getSymbol());
                 }
             }
-            if (y < maze.getFullHeight() - 1) {
-                sb.append('\n');
-            }
+            sb.append('\n');
         }
 
         return sb.toString();

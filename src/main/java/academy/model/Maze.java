@@ -69,9 +69,7 @@ public class Maze {
             for (int x = 0; x < width + 2; x++) {
                 sb.append(grid[y][x].getSymbol());
             }
-            if (y < height + 1) {
-                sb.append('\n');
-            }
+            sb.append('\n');
         }
         return sb.toString();
     }

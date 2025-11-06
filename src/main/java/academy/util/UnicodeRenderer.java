@@ -83,19 +83,13 @@ public class UnicodeRenderer {
         return FULL_BLOCK;
     }
 
-    public static String render(Maze maze, Point start, Point end) {
+    public static String render(Maze maze) {
         StringBuilder sb = new StringBuilder();
 
         for (int y = 0; y < maze.getFullHeight(); y++) {
             for (int x = 0; x < maze.getFullWidth(); x++) {
-                Point current = new Point(x, y);
                 String symbol;
-
-                if (current.equals(start)) {
-                    symbol = START;
-                } else if (current.equals(end)) {
-                    symbol = END;
-                } else if (maze.getCell(x, y).getSymbol() == '#') {
+                if (maze.getCell(x, y).getSymbol() == '#') {
                     symbol = getSymbol(maze, x, y);
                 } else {
                     symbol = String.valueOf(maze.getCell(x, y).getSymbol());
@@ -132,9 +126,7 @@ public class UnicodeRenderer {
                 }
                 sb.append(symbol);
             }
-            if (y < maze.getFullHeight() - 1) {
-                sb.append('\n');
-            }
+            sb.append('\n');
         }
 
         return sb.toString();

@@ -87,7 +87,7 @@ public class SolveCommand implements Callable<Integer> {
             }
 
             if (outputFile != null && !outputFile.trim().isEmpty()) {
-                FileHandler.saveSolution(result, outputFile);
+                FileHandler.save(result, outputFile);
                 System.out.println("Solution saved to: " + outputFile);
             } else {
                 System.out.println(result);

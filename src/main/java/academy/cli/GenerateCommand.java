@@ -6,6 +6,7 @@ import academy.generator.impl.DfsGenerator;
 import academy.generator.impl.PrimGenerator;
 import academy.model.Maze;
 import academy.util.FileHandler;
+import academy.util.UnicodeRenderer;
 import academy.util.Validator;
 import java.util.concurrent.Callable;
 import picocli.CommandLine.Command;
@@ -52,6 +53,12 @@ public class GenerateCommand implements Callable<Integer> {
             defaultValue = "0.3")
     private float surfaceVariationChance;
 
+    @Option(
+            names = {"-u", "--unicode"},
+            description = "Use Unicode box-drawing symbols for rendering",
+            defaultValue = "false")
+    private boolean useUnicode;
+
     @Override
     public Integer call() {
         try {
@@ -77,13 +84,18 @@ public class GenerateCommand implements Callable<Integer> {
                                     "Unknown algorithm: " + algorithm + ". Available: dfs, prim, cyclic");
                     };
 
+            String result;
+            if (useUnicode) {
+                result = UnicodeRenderer.render(maze);
+            } else {
+                result = maze.toString();
+            }
+
             if (outputFile != null && !outputFile.trim().isEmpty()) {
-
-                FileHandler.saveMaze(maze, outputFile);
-
+                FileHandler.save(result, outputFile);
                 System.out.println("Maze saved to: " + outputFile);
             } else {
-                System.out.println(maze.toString());
+                System.out.println(result);
             }
 
             return 0;
