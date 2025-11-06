@@ -1,8 +1,8 @@
-package academy.maze;
+package academy.solver;
 
-import academy.maze.dto.Maze;
-import academy.maze.dto.Path;
-import academy.maze.dto.Point;
+import academy.model.Maze;
+import academy.model.Path;
+import academy.model.Point;
 
 /** Решатель лабиринта */
 public interface Solver {

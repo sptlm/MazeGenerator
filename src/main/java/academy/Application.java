@@ -44,7 +44,6 @@ public class Application implements Runnable {
     public void run() {
         var config = loadConfig();
         LOGGER.atInfo().addKeyValue("config", config).log("Config content");
-
         // ... logic
     }
 

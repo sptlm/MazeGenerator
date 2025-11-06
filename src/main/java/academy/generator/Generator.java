@@ -1,6 +1,6 @@
-package academy.maze;
+package academy.generator;
 
-import academy.maze.dto.Maze;
+import academy.model.Maze;
 
 /** Генератор лабиринта */
 public interface Generator {
