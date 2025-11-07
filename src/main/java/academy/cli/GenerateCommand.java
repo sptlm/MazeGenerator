@@ -9,6 +9,8 @@ import academy.util.FileHandler;
 import academy.util.UnicodeRenderer;
 import academy.util.Validator;
 import java.util.concurrent.Callable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -17,6 +19,7 @@ import picocli.CommandLine.Option;
         description = "Generate a maze with specified algorithm and dimensions.",
         mixinStandardHelpOptions = true)
 public class GenerateCommand implements Callable<Integer> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenerateCommand.class);
 
     @Option(
             names = {"-a", "--algorithm"},
@@ -61,6 +64,7 @@ public class GenerateCommand implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        LOGGER.atInfo().log("Generative process launched.");
         try {
             Validator.validateMazeSize(width, height);
 
@@ -83,14 +87,12 @@ public class GenerateCommand implements Callable<Integer> {
                             throw new IllegalArgumentException(
                                     "Unknown algorithm: " + algorithm + ". Available: dfs, prim, cyclic");
                     };
-
             String result;
             if (useUnicode) {
                 result = UnicodeRenderer.render(maze);
             } else {
                 result = maze.toString();
             }
-
             if (outputFile != null && !outputFile.trim().isEmpty()) {
                 FileHandler.save(result, outputFile);
                 System.out.println("Maze saved to: " + outputFile);
@@ -100,9 +102,11 @@ public class GenerateCommand implements Callable<Integer> {
 
             return 0;
         } catch (IllegalArgumentException e) {
+            LOGGER.atError().setCause(e).log("Error occurred during generative process.");
             System.err.println(e.getMessage());
             return 1;
         } catch (Exception e) {
+            LOGGER.atError().setCause(e).log("Unexpected error occurred during generative process.");
             System.err.println("Unexpected error: " + e.getMessage());
             e.printStackTrace();
             return 2;

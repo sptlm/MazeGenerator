@@ -11,6 +11,8 @@ import academy.util.FileHandler;
 import academy.util.UnicodeRenderer;
 import academy.util.Validator;
 import java.util.concurrent.Callable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -19,6 +21,7 @@ import picocli.CommandLine.Option;
         description = "Solve a maze with specified algorithm and points.",
         mixinStandardHelpOptions = true)
 public class SolveCommand implements Callable<Integer> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SolveCommand.class);
 
     @Option(
             names = {"-a", "--algorithm"},
@@ -57,6 +60,7 @@ public class SolveCommand implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        LOGGER.atInfo().log("Solving process launched.");
         try {
             Maze maze = FileHandler.loadMaze(inputFile);
 
@@ -95,9 +99,11 @@ public class SolveCommand implements Callable<Integer> {
 
             return 0;
         } catch (IllegalArgumentException e) {
+            LOGGER.atError().setCause(e).log("Error occurred during solving process.");
             System.err.println(e.getMessage());
             return 1;
         } catch (Exception e) {
+            LOGGER.atError().setCause(e).log("Unexpected error occurred during solving process.");
             System.err.println("Unexpected error: " + e.getMessage());
             e.printStackTrace();
             return 2;

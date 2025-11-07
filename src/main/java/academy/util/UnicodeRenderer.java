@@ -1,5 +1,6 @@
 package academy.util;
 
+import academy.model.CellType;
 import academy.model.Maze;
 import academy.model.Path;
 import academy.model.Point;
@@ -27,9 +28,21 @@ public class UnicodeRenderer {
     static final String END = "◎";
     static final String PATH = "·";
 
+    static final String ASPHALT = "═";
+    static final String SAND = "≈";
+    static final String SWAMP = "≋";
+
+    static final String PASSAGE = " ";
+
     private static String getSymbol(Maze maze, int x, int y) {
-        if (maze.getCell(x, y).getSymbol() != '#') {
-            return String.valueOf(maze.getCell(x, y).getSymbol());
+        if (maze.getCell(x, y) != CellType.WALL) {
+            return switch (maze.getCell(x, y)) {
+                case WALL -> FULL_BLOCK;
+                case PASSAGE -> PASSAGE;
+                case ASPHALT -> ASPHALT;
+                case SAND -> SAND;
+                case SWAMP -> SWAMP;
+            };
         }
 
         boolean top = y > 0 && maze.getCell(x, y - 1).getSymbol() == '#';
@@ -88,13 +101,7 @@ public class UnicodeRenderer {
 
         for (int y = 0; y < maze.getFullHeight(); y++) {
             for (int x = 0; x < maze.getFullWidth(); x++) {
-                String symbol;
-                if (maze.getCell(x, y).getSymbol() == '#') {
-                    symbol = getSymbol(maze, x, y);
-                } else {
-                    symbol = String.valueOf(maze.getCell(x, y).getSymbol());
-                }
-
+                String symbol = getSymbol(maze, x, y);
                 sb.append(symbol);
             }
             if (y < maze.getFullHeight() - 1) {
