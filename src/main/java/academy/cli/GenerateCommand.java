@@ -103,11 +103,11 @@ public class GenerateCommand implements Callable<Integer> {
             return 0;
         } catch (IllegalArgumentException e) {
             LOGGER.atError().setCause(e).log("Error occurred during generative process.");
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
             return 1;
         } catch (Exception e) {
             LOGGER.atError().setCause(e).log("Unexpected error occurred during generative process.");
-            System.err.println("Unexpected error: " + e.getMessage());
+            System.out.println("Unexpected error: " + e.getMessage());
             e.printStackTrace();
             return 2;
         }

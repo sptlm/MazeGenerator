@@ -5,9 +5,7 @@
                    https://logging.apache.org/xml/ns/log4j-config-2.xsd">
 
     <Appenders>
-        <File name="FILE_JSON" fileName="${LOG_DIR}/${date:yyyy-MM-dd-HH-mm-ss}.log">
-            <JsonTemplateLayout eventTemplateUri="classpath:LogLayout.json"/>
-        </File>
+        <File name="FILE_JSON" fileName="${LOG_DIR}/${date:yyyy-MM-dd-HH-mm-ss}.log"/>
     </Appenders>
 
     <Loggers>
