@@ -1,5 +1,6 @@
 package academy.util;
 
+import academy.model.Maze;
 import academy.model.Point;
 
 public class Validator {
@@ -10,6 +11,21 @@ public class Validator {
         }
         if (height <= 0) {
             throw new IllegalArgumentException("Height must be positive, got: " + height);
+        }
+    }
+
+    public static void validatePoints(Maze maze, Point start, Point end) {
+        if (!maze.isValidCoordinate(start.x(), start.y())) {
+            throw new IllegalArgumentException("Start point is out of bounds: " + start);
+        }
+        if (!maze.isValidCoordinate(end.x(), end.y())) {
+            throw new IllegalArgumentException("End point is out of bounds: " + end);
+        }
+        if (!maze.isPassage(start.x(), start.y())) {
+            throw new IllegalArgumentException("Start point is not a passage: " + start);
+        }
+        if (!maze.isPassage(end.x(), end.y())) {
+            throw new IllegalArgumentException("End point is not a passage: " + end);
         }
     }
 

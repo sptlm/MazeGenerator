@@ -1,14 +1,10 @@
 package academy.cli;
 
-import academy.generator.BaseGenerator;
-import academy.generator.impl.CyclicMazeGenerator;
-import academy.generator.impl.DfsGenerator;
-import academy.generator.impl.PrimGenerator;
+import academy.generator.Generator;
 import academy.model.Maze;
 import academy.util.FileHandler;
 import academy.util.UnicodeRenderer;
 import academy.util.Validator;
-import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
@@ -18,7 +14,7 @@ import picocli.CommandLine.Option;
         name = "generate",
         description = "Generate a maze with specified algorithm and dimensions.",
         mixinStandardHelpOptions = true)
-public class GenerateCommand implements Callable<Integer> {
+public class GenerateCommand implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateCommand.class);
 
     @Option(
@@ -63,30 +59,22 @@ public class GenerateCommand implements Callable<Integer> {
     private boolean useUnicode;
 
     @Override
-    public Integer call() {
+    public void run() {
         LOGGER.atInfo().log("Generative process launched.");
         try {
             Validator.validateMazeSize(width, height);
 
-            Maze maze =
-                    switch (algorithm.toLowerCase()) {
-                        case "dfs" -> {
-                            BaseGenerator gen = new DfsGenerator();
-                            yield gen.generate(width, height);
-                        }
-                        case "prim" -> {
-                            BaseGenerator gen = new PrimGenerator();
-                            yield gen.generate(width, height);
-                        }
-                        case "cyclic" -> {
-                            CyclicMazeGenerator gen = new CyclicMazeGenerator(
-                                    System.currentTimeMillis(), cycleChance, surfaceVariationChance);
-                            yield gen.generate(width, height);
-                        }
-                        default ->
-                            throw new IllegalArgumentException(
-                                    "Unknown algorithm: " + algorithm + ". Available: dfs, prim, cyclic");
-                    };
+            Generator generator = null;
+            for (GeneratorNames gen : GeneratorNames.values()) {
+                if (gen.getName().equals(algorithm)) {
+                    generator = gen.getGenerator();
+                    break;
+                }
+            }
+            if (generator == null) {
+                throw new IllegalArgumentException("Unknown algorithm: " + algorithm);
+            }
+            Maze maze = generator.generate(width, height);
             String result;
             if (useUnicode) {
                 result = UnicodeRenderer.render(maze);
@@ -99,17 +87,12 @@ public class GenerateCommand implements Callable<Integer> {
             } else {
                 System.out.println(result);
             }
-
-            return 0;
         } catch (IllegalArgumentException e) {
             LOGGER.atError().setCause(e).log("Error occurred during generative process.");
             System.out.println(e.getMessage());
-            return 1;
         } catch (Exception e) {
             LOGGER.atError().setCause(e).log("Unexpected error occurred during generative process.");
             System.out.println("Unexpected error: " + e.getMessage());
-            e.printStackTrace();
-            return 2;
         }
     }
 }

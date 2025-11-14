@@ -4,6 +4,7 @@ import academy.model.CellType;
 import academy.model.Maze;
 import academy.util.Validator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -11,8 +12,6 @@ import java.util.Random;
 public abstract class BaseGenerator implements Generator {
 
     protected final Random random;
-
-    // protected static final int[][] DIRECTIONS = {{2, 0}, {0, 2}, {-2, 0}, {0, -2}};
 
     private static final int[][] DIRECTIONS = {{2, 0}, {0, 2}, {-2, 0}, {0, -2}};
 
@@ -35,12 +34,9 @@ public abstract class BaseGenerator implements Generator {
     }
 
     protected List<int[]> getShuffledDirections() {
-        List<int[]> directions = new ArrayList<>();
-        for (int[] dir : DIRECTIONS) {
-            directions.add(dir.clone());
-        }
+        List<int[]> directions = Arrays.asList(DIRECTIONS);
         Collections.shuffle(directions, random);
-        return directions;
+        return new ArrayList<>(directions);
     }
 
     protected void createPassage(Maze maze, int x1, int y1, int x2, int y2) {

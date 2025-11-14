@@ -4,6 +4,7 @@ import academy.model.Maze;
 import academy.model.Path;
 import academy.model.Point;
 import academy.solver.BaseSolver;
+import academy.util.Validator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,7 +24,7 @@ import java.util.PriorityQueue;
 public class BiDirectionalWeightedSolver extends BaseSolver {
     @Override
     public Path solve(Maze maze, Point start, Point end) {
-        validatePoints(maze, start, end);
+        Validator.validatePoints(maze, start, end);
         // Приоритетные очереди для двусторонних поисков
         PriorityQueue<Node> forwardQueue = new PriorityQueue<>(Comparator.comparingInt(n -> n.cost));
         PriorityQueue<Node> backwardQueue = new PriorityQueue<>(Comparator.comparingInt(n -> n.cost));

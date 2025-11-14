@@ -1,9 +1,14 @@
 package academy.generator.impl;
 
 import academy.generator.BaseGenerator;
+import academy.generator.Generator;
 import academy.model.CellType;
 import academy.model.Maze;
+import academy.model.Point;
 import academy.util.Validator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Генератор не-идеальных лабиринтов с циклами и несколькими путями. Использует dfs генератор для получения идеального
@@ -12,33 +17,33 @@ import academy.util.Validator;
 public class CyclicMazeGenerator extends BaseGenerator {
     private float cycleChance; // Вероятность добавления цикла
     private float surfaceVariationChance; // Вероятность использования других поверхностей
-    private DfsGenerator dfsGenerator;
+    private Generator perfectGenerator;
 
-    public CyclicMazeGenerator() {
+    public CyclicMazeGenerator(Generator perfectGenerator) {
         super();
         this.cycleChance = 0.2f;
         this.surfaceVariationChance = 0.3f;
-        this.dfsGenerator = new DfsGenerator();
+        this.perfectGenerator = perfectGenerator;
     }
 
-    public CyclicMazeGenerator(long seed) {
+    public CyclicMazeGenerator(long seed, Generator perfectGenerator) {
         super(seed);
         this.cycleChance = 0.2f;
         this.surfaceVariationChance = 0.3f;
-        this.dfsGenerator = new DfsGenerator(seed);
+        this.perfectGenerator = perfectGenerator;
     }
 
-    public CyclicMazeGenerator(long seed, float cycleChance, float surfaceVariationChance) {
+    public CyclicMazeGenerator(long seed, float cycleChance, float surfaceVariationChance, Generator perfectGenerator) {
         super(seed);
         this.cycleChance = Math.max(0.0f, Math.min(1.0f, cycleChance));
         this.surfaceVariationChance = Math.max(0.0f, Math.min(1.0f, surfaceVariationChance));
-        this.dfsGenerator = new DfsGenerator(seed);
+        this.perfectGenerator = perfectGenerator;
     }
 
     public Maze generate(int width, int height) {
         Validator.validateMazeSize(width, height);
 
-        Maze maze = dfsGenerator.generate(width, height);
+        Maze maze = perfectGenerator.generate(width, height);
         // Добавляем циклы для создания множественных путей
         addCycles(maze, width, height);
 
@@ -49,14 +54,23 @@ public class CyclicMazeGenerator extends BaseGenerator {
     }
 
     private void addCycles(Maze maze, int width, int height) {
-        // Количество циклов зависит от размера лабиринта и cycleChance
+        List<Point> wallCells = new ArrayList<>();
+
+        for (int y = 1; y <= height; y++) {
+            for (int x = 1; x <= width; x++) {
+                if (!maze.isPassage(x, y)) {
+                    wallCells.add(new Point(x, y));
+                }
+            }
+        }
         int cycleCount = (int) ((width + height) * cycleChance);
-        while (cycleCount > 0) {
-            int x = random.nextInt(1, width + 1);
-            int y = random.nextInt(1, height + 1);
-            if (maze.isPassage(x, y)) continue;
-            maze.setCell(x, y, CellType.PASSAGE);
-            cycleCount--;
+        cycleCount = Math.min(cycleCount, wallCells.size());
+
+        Collections.shuffle(wallCells, random);
+
+        for (int i = 0; i < cycleCount; i++) {
+            Point p = wallCells.get(i);
+            maze.setCell(p.x(), p.y(), CellType.PASSAGE);
         }
     }
 

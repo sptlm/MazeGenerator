@@ -1,7 +1,9 @@
 package academy.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Path {
     private final List<Point> points;
@@ -30,7 +32,8 @@ public class Path {
         return points.isEmpty();
     }
 
-    public String renderMaze(Maze maze, Point start, Point end) {
+    public String applyToMaze(Maze maze, Point start, Point end) {
+        Set<Point> pointSet = new HashSet<>(points);
         StringBuilder sb = new StringBuilder();
 
         for (int y = 0; y < maze.getFullHeight(); y++) {
@@ -41,7 +44,7 @@ public class Path {
                     sb.append('O');
                 } else if (current.equals(end)) {
                     sb.append('X');
-                } else if (points.contains(current) && !current.equals(start) && !current.equals(end)) {
+                } else if (pointSet.contains(current)) {
                     sb.append('.');
                 } else {
                     sb.append(maze.getCell(x, y).getSymbol());

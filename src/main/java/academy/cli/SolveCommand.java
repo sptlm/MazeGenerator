@@ -3,14 +3,10 @@ package academy.cli;
 import academy.model.Maze;
 import academy.model.Path;
 import academy.model.Point;
-import academy.solver.BaseSolver;
-import academy.solver.impl.AStarSolver;
-import academy.solver.impl.BiDirectionalWeightedSolver;
-import academy.solver.impl.DijkstraSolver;
+import academy.solver.Solver;
 import academy.util.FileHandler;
 import academy.util.UnicodeRenderer;
 import academy.util.Validator;
-import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
@@ -20,7 +16,7 @@ import picocli.CommandLine.Option;
         name = "solve",
         description = "Solve a maze with specified algorithm and points.",
         mixinStandardHelpOptions = true)
-public class SolveCommand implements Callable<Integer> {
+public class SolveCommand implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(SolveCommand.class);
 
     @Option(
@@ -59,7 +55,7 @@ public class SolveCommand implements Callable<Integer> {
     private boolean useUnicode;
 
     @Override
-    public Integer call() {
+    public void run() {
         LOGGER.atInfo().log("Solving process launched.");
         try {
             Maze maze = FileHandler.loadMaze(inputFile);
@@ -67,27 +63,27 @@ public class SolveCommand implements Callable<Integer> {
             Point start = Validator.parseCoordinates(startCoords);
             Point end = Validator.parseCoordinates(endCoords);
 
-            BaseSolver solver =
-                    switch (algorithm.toLowerCase()) {
-                        case "astar" -> new AStarSolver();
-                        case "dijkstra" -> new DijkstraSolver();
-                        case "bidirectional" -> new BiDirectionalWeightedSolver();
-                        default ->
-                            throw new IllegalArgumentException(
-                                    "Unknown algorithm: " + algorithm + ". Available: astar, dijkstra, bidirectional");
-                    };
+            Solver solver = null;
+            for (SolverNames sol : SolverNames.values()) {
+                if (sol.getName().equals(algorithm)) {
+                    solver = sol.getSolver();
+                    break;
+                }
+            }
+            if (solver == null) {
+                throw new IllegalArgumentException("Unknown algorithm: " + algorithm);
+            }
 
             Path path = solver.solve(maze, start, end);
 
             if (path.isEmpty()) {
                 System.err.println("No path found from " + start + " to " + end);
-                return 1;
             }
             String result;
             if (useUnicode) {
                 result = UnicodeRenderer.renderWithPath(maze, path, start, end);
             } else {
-                result = path.renderMaze(maze, start, end);
+                result = path.applyToMaze(maze, start, end);
             }
 
             if (outputFile != null && !outputFile.trim().isEmpty()) {
@@ -97,16 +93,12 @@ public class SolveCommand implements Callable<Integer> {
                 System.out.println(result);
             }
 
-            return 0;
         } catch (IllegalArgumentException e) {
             LOGGER.atError().setCause(e).log("Error occurred during solving process.");
             System.out.println(e.getMessage());
-            return 1;
         } catch (Exception e) {
             LOGGER.atError().setCause(e).log("Unexpected error occurred during solving process.");
             System.out.println("Unexpected error: " + e.getMessage());
-            e.printStackTrace();
-            return 2;
         }
     }
 }

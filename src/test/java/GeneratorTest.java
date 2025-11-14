@@ -57,6 +57,10 @@ public class GeneratorTest {
             assertEquals(CellType.WALL, primMaze.getCell(x, 0));
             assertEquals(CellType.WALL, primMaze.getCell(x, primMaze.getFullHeight() - 1));
         }
+        for (int y = 0; y < dfsMaze.getFullHeight(); y++) {
+            assertEquals(CellType.WALL, primMaze.getCell(0, y));
+            assertEquals(CellType.WALL, primMaze.getCell(primMaze.getFullWidth() - 1, y));
+        }
     }
 
     @Test
@@ -103,7 +107,7 @@ public class GeneratorTest {
 
     @Test
     void testCyclicGeneratorCreatesValidMaze() {
-        CyclicMazeGenerator generator = new CyclicMazeGenerator(42, 0.2f, 0.3f);
+        CyclicMazeGenerator generator = new CyclicMazeGenerator(42, 0.2f, 0.3f, new DfsGenerator(42));
         Maze maze = generator.generate(10, 10);
 
         assertNotNull(maze);
@@ -113,7 +117,7 @@ public class GeneratorTest {
 
     @Test
     void testCyclicGeneratorBordersAreWalls() {
-        CyclicMazeGenerator generator = new CyclicMazeGenerator();
+        CyclicMazeGenerator generator = new CyclicMazeGenerator(new DfsGenerator(42));
         Maze maze = generator.generate(5, 5);
 
         for (int x = 0; x < maze.getFullWidth(); x++) {
@@ -128,25 +132,17 @@ public class GeneratorTest {
 
     @Test
     void testCyclicGeneratorHasPassages() {
-        CyclicMazeGenerator generator = new CyclicMazeGenerator();
+        CyclicMazeGenerator generator = new CyclicMazeGenerator(new DfsGenerator(42));
         Maze maze = generator.generate(10, 10);
 
-        boolean hasPassage = false;
-        for (int y = 1; y < maze.getFullHeight() - 1; y++) {
-            for (int x = 1; x < maze.getFullWidth() - 1; x++) {
-                if (maze.isPassage(x, y)) {
-                    hasPassage = true;
-                    break;
-                }
-            }
-        }
+        boolean hasPassage = hasMazePassages(maze);
 
         assertTrue(hasPassage, "Cyclic maze should have passages");
     }
 
     @Test
     void testCyclicGeneratorHasSurfaceVariation() {
-        CyclicMazeGenerator generator = new CyclicMazeGenerator(42, 0.3f, 0.7f);
+        CyclicMazeGenerator generator = new CyclicMazeGenerator(42, 0.3f, 0.7f, new DfsGenerator(42));
         Maze maze = generator.generate(15, 15);
 
         // С высокой вероятностью должны быть разные поверхности
@@ -167,7 +163,7 @@ public class GeneratorTest {
     @Test
     void testCyclicGeneratorHasMultiplePaths() {
         // Циклический лабиринт должен иметь циклы (несколько путей)
-        CyclicMazeGenerator generator = new CyclicMazeGenerator(42, 0.5f, 0.3f);
+        CyclicMazeGenerator generator = new CyclicMazeGenerator(42, 0.5f, 0.3f, new DfsGenerator(42));
         Maze maze = generator.generate(15, 15);
 
         // Проверяем, что есть проходимые ячейки (циклы должны их создать)
@@ -180,7 +176,7 @@ public class GeneratorTest {
     void testGeneratorThrowsOnInvalidSize() {
         DfsGenerator dfsGen = new DfsGenerator();
         PrimGenerator primGen = new PrimGenerator();
-        CyclicMazeGenerator cyclicGen = new CyclicMazeGenerator();
+        CyclicMazeGenerator cyclicGen = new CyclicMazeGenerator(new DfsGenerator(42));
 
         assertThrows(IllegalArgumentException.class, () -> dfsGen.generate(0, 10));
         assertThrows(IllegalArgumentException.class, () -> dfsGen.generate(10, 0));
@@ -210,7 +206,7 @@ public class GeneratorTest {
 
     @Test
     void testCyclicMazeDisplaysCorrectly() {
-        CyclicMazeGenerator generator = new CyclicMazeGenerator();
+        CyclicMazeGenerator generator = new CyclicMazeGenerator(new DfsGenerator(42));
         Maze maze = generator.generate(8, 8);
         String display = maze.toString();
 

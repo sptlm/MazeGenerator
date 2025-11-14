@@ -1,5 +1,7 @@
 package academy.solver.impl;
 
+import static academy.util.Validator.validatePoints;
+
 import academy.model.Maze;
 import academy.model.Path;
 import academy.model.Point;

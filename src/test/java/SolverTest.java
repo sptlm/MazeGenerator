@@ -31,7 +31,7 @@ class SolverTest {
         PrimGenerator primGen = new PrimGenerator(42);
         primMaze = primGen.generate(10, 10);
 
-        CyclicMazeGenerator cyclicGen = new CyclicMazeGenerator(42, 0.3f, 0.4f);
+        CyclicMazeGenerator cyclicGen = new CyclicMazeGenerator(42, 0.3f, 0.4f, dfsGen);
         cyclicMaze = cyclicGen.generate(10, 10);
     }
 
@@ -222,7 +222,7 @@ class SolverTest {
         Point end = new Point(9, 9);
 
         Path path = solver.solve(dfsMaze, start, end);
-        String display = path.renderMaze(dfsMaze, start, end);
+        String display = path.applyToMaze(dfsMaze, start, end);
 
         assertNotNull(display);
         assertTrue(display.contains("O"), "Display should contain start marker");
@@ -237,7 +237,7 @@ class SolverTest {
         Point end = new Point(9, 9);
 
         Path path = solver.solve(cyclicMaze, start, end);
-        String display = path.renderMaze(cyclicMaze, start, end);
+        String display = path.applyToMaze(cyclicMaze, start, end);
 
         assertNotNull(display);
         assertTrue(display.length() > 0);
@@ -259,7 +259,7 @@ class SolverTest {
         Path path = solver.solve(isolatedMaze, new Point(1, 1), new Point(2, 2));
 
         // Должны получить пустой путь (не ошибку)
-        assertTrue(path.isEmpty() || !path.isEmpty(), "Should handle isolated areas gracefully");
+        assertTrue(path.isEmpty(), "Should handle isolated areas gracefully");
     }
 
     @Test
